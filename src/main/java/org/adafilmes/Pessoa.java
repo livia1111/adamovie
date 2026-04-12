@@ -37,5 +37,4 @@ public abstract class Pessoa {
         this.nacionalidade = nacionalidade;
     }
 
-
 }
