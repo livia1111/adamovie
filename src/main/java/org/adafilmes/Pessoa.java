@@ -3,24 +3,14 @@ package org.adafilmes;
 import java.time.LocalDate;
 
 public abstract class Pessoa {
-    private Long id;
     private String nome;
     private LocalDate dataNascimento;
     private String nacionalidade;
 
-    public Pessoa(Long id, String nome, LocalDate dataNascimento, String nacionalidade) {
-        this.id = id;
+    public Pessoa(String nome, LocalDate dataNascimento, String nacionalidade) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.nacionalidade = nacionalidade;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -47,5 +37,5 @@ public abstract class Pessoa {
         this.nacionalidade = nacionalidade;
     }
 
-    //ToString?
+
 }

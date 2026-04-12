@@ -1,7 +1,12 @@
+package org.adafilmes;
+
+import java.time.LocalDate;
+import java.util.List;
+
 public class Filme {
     
     private String  nome;
-    private java.util.Date dataLancamento;
+    private LocalDate dataLancamento;
     private float orcamento;
     private Diretor diretor; //lista
     private List<Ator> atores; //lista
@@ -11,10 +16,10 @@ public class Filme {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public java.util.Date getDataLancamento() {
+    public LocalDate getDataLancamento() {
         return dataLancamento;
     }
-    public void setDataLancamento(java.util.Date dataLancamento) {
+    public void setDataLancamento(LocalDate dataLancamento) {
         this.dataLancamento = dataLancamento;
     }
     public float getOrcamento() {
