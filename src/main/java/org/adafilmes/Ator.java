@@ -5,8 +5,8 @@ import java.time.LocalDate;
 public class Ator extends Pessoa {
     double cache;
 
-    public Ator(Long id, String nome, LocalDate dataNascimento, String nacionalidade, double cache) {
-        super(id,nome,dataNascimento,nacionalidade);
+    public Ator(String nome, LocalDate dataNascimento, String nacionalidade, double cache) {
+        super(nome,dataNascimento,nacionalidade);
         this.cache = cache;
     }
 
