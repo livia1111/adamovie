@@ -3,12 +3,42 @@ package org.adafilmes;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Classe principal do sistema ADA Filmes.
+ * Gerencia a interface de linha de comando para o cadastro e associação de filmes, atores e diretores.
+ * 
+ * @author Afranio C
+ */
 public class Main {
     private static Catalogo catalogo = new Catalogo();
     private static Scanner scanner = new Scanner(System.in);
-    private static int proximoFilmeId =
-            catalogo.getFilmes().stream().mapToInt(Filme::getId).max().orElse(0) + 1;
+    
+    /**
+     * Calcula o próximo ID disponível para um filme percorrendo a lista atual.
+     * Substitui o uso de Streams e Lambdas.
+     * 
+     * @return O próximo ID sequencial.
+     * @author Afranio C
+     */
+    private static int calcularProximoId() {
+        int maxId = 0;
+        List<Filme> filmes = catalogo.getFilmes();
+        for (Filme filme : filmes) {
+            if (filme.getId() > maxId) {
+                maxId = filme.getId();
+            }
+        }
+        return maxId + 1;
+    }
 
+    private static int proximoFilmeId = calcularProximoId();
+
+    /**
+     * Ponto de entrada da aplicação. Inicia o loop principal do menu.
+     * 
+     * @param args Argumentos da linha de comando (não utilizados).
+     * @author Afranio C
+     */
     public static void main(String[] args) {
         int opcao = -1;
         while (opcao != 0) {
@@ -22,6 +52,11 @@ public class Main {
         }
     }
 
+    /**
+     * Exibe o menu principal de opções no console.
+     * 
+     * @author Afranio C
+     */
     private static void exibirMenu() {
         System.out.println("\n--- ADA FILMES ---");
         System.out.println("1. Cadastrar Filme");
@@ -35,6 +70,12 @@ public class Main {
         System.out.print("Escolha uma opção: ");
     }
 
+    /**
+     * Encaminha a execução para a funcionalidade correspondente à opção escolhida.
+     * 
+     * @param opcao A opção selecionada pelo usuário.
+     * @author Afranio C
+     */
     private static void processarOpcao(int opcao) {
         switch (opcao) {
             case 1:
@@ -66,6 +107,11 @@ public class Main {
         }
     }
 
+    /**
+     * Realiza o cadastro de um novo filme solicitando os dados via console.
+     * 
+     * @author Afranio C
+     */
     private static void cadastrarFilme() {
         System.out.print("Nome do Filme: ");
         String nome = scanner.nextLine();
@@ -81,6 +127,11 @@ public class Main {
         System.out.println("Filme cadastrado com sucesso! ID: " + (proximoFilmeId - 1));
     }
 
+    /**
+     * Realiza o cadastro de um novo ator.
+     * 
+     * @author Afranio C
+     */
     private static void cadastrarAtor() {
         System.out.print("Nome do Ator: ");
         String nome = scanner.nextLine();
@@ -89,6 +140,11 @@ public class Main {
         System.out.println("Ator cadastrado com sucesso!");
     }
 
+    /**
+     * Realiza o cadastro de um novo diretor.
+     * 
+     * @author Afranio C
+     */
     private static void cadastrarDiretor() {
         System.out.print("Nome do Diretor: ");
         String nome = scanner.nextLine();
@@ -97,6 +153,11 @@ public class Main {
         System.out.println("Diretor cadastrado com sucesso!");
     }
 
+    /**
+     * Permite associar um diretor cadastrado a um filme através do ID do filme.
+     * 
+     * @author Afranio C
+     */
     private static void associarDiretor() {
         System.out.print("ID do Filme: ");
         int id = Integer.parseInt(scanner.nextLine());
@@ -113,14 +174,20 @@ public class Main {
         }
         int index = Integer.parseInt(scanner.nextLine());
 
-        if (index >= 0 && index < diretores.size()) {
-            catalogo.associarDiretorFilme(id, diretores.get(index));
-            System.out.println("Diretor associado!");
-        } else {
+        if (index < 0 || index >= diretores.size()) {
             System.out.println("Índice inválido.");
+            return;
         }
+
+        catalogo.associarDiretorFilme(id, diretores.get(index));
+        System.out.println("Diretor associado!");
     }
 
+    /**
+     * Permite associar um ator cadastrado a um filme através do ID do filme.
+     * 
+     * @author Afranio C
+     */
     private static void associarAtor() {
         System.out.print("ID do Filme: ");
         int id = Integer.parseInt(scanner.nextLine());
@@ -137,38 +204,58 @@ public class Main {
         }
         int index = Integer.parseInt(scanner.nextLine());
 
-        if (index >= 0 && index < atores.size()) {
-            catalogo.associarAtorFilme(id, atores.get(index));
-            System.out.println("Ator associado!");
-        } else {
+        if (index < 0 || index >= atores.size()) {
             System.out.println("Índice inválido.");
+            return;
         }
+
+        catalogo.associarAtorFilme(id, atores.get(index));
+        System.out.println("Ator associado!");
     }
 
+    /**
+     * Pesquisa filmes por nome e exibe os resultados encontrados.
+     * 
+     * @author Afranio C
+     */
     private static void pesquisarFilme() {
         System.out.print("Digite o nome do filme: ");
         String nome = scanner.nextLine();
         List<Filme> resultados = catalogo.buscarFilmePorNome(nome);
         if (resultados.isEmpty()) {
             System.out.println("Nenhum filme encontrado.");
-        } else {
-            resultados.forEach(System.out::println);
+            return;
+        }
+        for (Filme filme : resultados) {
+            System.out.println(filme);
         }
     }
 
+    /**
+     * Lista todos os filmes cadastrados e permite visualizar os detalhes de um filme específico.
+     * 
+     * @author Afranio C
+     */
     private static void listarFilmes() {
         List<Filme> filmes = catalogo.getFilmes();
         if (filmes.isEmpty()) {
             System.out.println("Nenhum filme cadastrado.");
-        } else {
-            filmes.forEach(f -> {
-                System.out.println("-------------------------");
-                System.out.println(f.getId()+" - "+f.getNome());
-            });
+            return;
         }
+        
+        for (Filme f : filmes) {
+            System.out.println("-------------------------");
+            System.out.println(f.getId() + " - " + f.getNome());
+        }
+        
         System.out.print("Escolha um filme para ver os detalhes: ");
-        int escolhaFilme = scanner.nextInt();
+        int escolhaFilme = Integer.parseInt(scanner.nextLine());
+        
+        if (escolhaFilme < 1 || escolhaFilme > filmes.size()) {
+            System.out.println("ID de filme inválido.");
+            return;
+        }
+        
         System.out.println(filmes.get(escolhaFilme - 1));
-
     }
 }
