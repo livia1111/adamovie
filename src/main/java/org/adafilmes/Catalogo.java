@@ -26,6 +26,7 @@ public class Catalogo {
         carregarDadosIniciais();
     }
     //Metodo pra carregar massa de teste
+    @SuppressWarnings("InsertLiteralUnderscores")
     private void carregarDadosIniciais() {
         if (!filmes.isEmpty() || !atores.isEmpty() || !diretores.isEmpty()) {
             return;
@@ -102,10 +103,10 @@ public class Catalogo {
 
         // 1) A Origem
         Filme aOrigem = new Filme(
-                1,
+                0,
                 "A Origem",
-                "16/07/2010",
-                160_000_000f,
+                "16072010",
+                "160000000",
                 "Um especialista em invadir sonhos recebe a missão de implantar uma ideia na mente de um herdeiro."
         );
         aOrigem.setDiretor(christopherNolan);
@@ -126,10 +127,10 @@ public class Catalogo {
 
         // 2) Interestelar
         Filme interestelar = new Filme(
-                2,
+                1,
                 "Interestelar",
-                "07/11/2014",
-                165_000_000f,
+                "07112014",
+                "165000000",
                 "Em um futuro de escassez na Terra, astronautas atravessam um buraco de minhoca em busca de um novo lar para a humanidade."
         );
         interestelar.setDiretor(christopherNolan);
@@ -149,10 +150,10 @@ public class Catalogo {
 
         // 3) Matrix
         Filme matrix = new Filme(
-                3,
+                2,
                 "Matrix",
-                "31/03/1999",
-                63_000_000f,
+                "31031999",
+                "63000000",
                 "Um hacker descobre que a realidade é uma simulação criada por máquinas e passa a lutar contra esse sistema."
         );
         matrix.setDiretor(wachowskis);
@@ -168,10 +169,10 @@ public class Catalogo {
 
         // 4) Titanic
         Filme titanic = new Filme(
-                4,
+                3,
                 "Titanic",
-                "19/12/1997",
-                200_000_000f,
+                "19121997",
+                "200000000",
                 "Um romance entre passageiros de classes sociais diferentes se desenvolve durante a viagem inaugural do RMS Titanic."
         );
         titanic.setDiretor(jamesCameron);
@@ -194,10 +195,10 @@ public class Catalogo {
 
         // 5) Gladiador
         Filme gladiador = new Filme(
-                5,
+                4,
                 "Gladiador",
-                "05/05/2000",
-                103_000_000f,
+                "05052000",
+                "103000000",
                 "Após ser traído pelo novo imperador, um general romano se torna gladiador em busca de vingança."
         );
         gladiador.setDiretor(ridleyScott);

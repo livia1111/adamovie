@@ -1,7 +1,13 @@
 package org.adafilmes;
 
+import org.adafilmes.utils.EfeitoTexto;
+
+import static org.adafilmes.utils.FonteCores.*;
+import static org.adafilmes.utils.LimparConsole.limparConsole;
+
 import java.util.List;
 import java.util.Scanner;
+
 
 /**
  * Classe principal do sistema ADA Filmes.
@@ -47,7 +53,11 @@ public class Main {
                 opcao = Integer.parseInt(scanner.nextLine());
                 processarOpcao(opcao);
             } catch (NumberFormatException e) {
-                System.out.println("Opção inválida. Digite um número.");
+                limparConsole(500);
+                System.out.println(VERMELHO + "Opção inválida!!\nDigite um número." + RESET);
+                System.out.println("\nPress Enter para voltar ao menu inicial...");
+                scanner.nextLine();
+                limparConsole(1000);
             }
         }
     }
@@ -94,16 +104,23 @@ public class Main {
                 associarAtor();
                 break;
             case 6:
+                limparConsole(1000);
                 pesquisarFilme();
                 break;
             case 7:
+                limparConsole(1000);
                 listarFilmes();
                 break;
             case 0:
-                System.out.println("Saindo...");
+                EfeitoTexto.escrever("\nEncerrando a aplicação...", 70);
+                limparConsole();
                 break;
             default:
-                System.out.println("Opção inválida.");
+                limparConsole(500);
+                System.out.println(VERMELHO+"Opção inválida!!"+RESET);
+                System.out.println("\nPress Enter para voltar ao menu inicial...");
+                scanner.nextLine();
+                limparConsole(1000);
         }
     }
 
@@ -113,18 +130,27 @@ public class Main {
      * @author Afranio C
      */
     private static void cadastrarFilme() {
+        limparConsole(500);
+        System.out.println("------------------------");
+        System.out.println("    CADASTRO DE FILME   ");
+        System.out.println("------------------------\n");
         System.out.print("Nome do Filme: ");
         String nome = scanner.nextLine();
         System.out.print("Data de Lançamento: ");
         String data = scanner.nextLine();
         System.out.print("Orçamento: ");
-        float orcamento = Float.parseFloat(scanner.nextLine());
+        String orcamento = scanner.nextLine();
         System.out.print("Descrição: ");
         String descricao = scanner.nextLine();
 
         Filme filme = new Filme(proximoFilmeId++, nome, data, orcamento, descricao);
         catalogo.adicionarFilmeAoCatalogo(filme);
-        System.out.println("Filme cadastrado com sucesso! ID: " + (proximoFilmeId - 1));
+
+        limparConsole(500);
+        System.out.println(VERDE+"Filme cadastrado com sucesso! ID: " + (proximoFilmeId - 1)+RESET);
+        System.out.println("\nPress Enter para voltar ao menu inicial...");
+        scanner.nextLine();
+        limparConsole(1000);
     }
 
     /**
@@ -133,11 +159,21 @@ public class Main {
      * @author Afranio C
      */
     private static void cadastrarAtor() {
+        limparConsole(500);
+        System.out.println("------------------------");
+        System.out.println("    CADASTRO DE ATOR    ");
+        System.out.println("------------------------\n");
         System.out.print("Nome do Ator: ");
         String nome = scanner.nextLine();
+
         Ator ator = new Ator(nome);
         catalogo.adicionarAtorAoCatalogo(ator);
-        System.out.println("Ator cadastrado com sucesso!");
+
+        limparConsole(500);
+        System.out.println(VERDE+"Ator cadastrado com sucesso!"+RESET);
+        System.out.println("\nPress Enter para voltar ao menu inicial...");
+        scanner.nextLine();
+        limparConsole(1000);
     }
 
     /**
@@ -146,11 +182,20 @@ public class Main {
      * @author Afranio C
      */
     private static void cadastrarDiretor() {
+        limparConsole(500);
+        System.out.println("------------------------");
+        System.out.println("   CADASTRO DE DIRETOR  ");
+        System.out.println("------------------------\n");
         System.out.print("Nome do Diretor: ");
         String nome = scanner.nextLine();
         Diretor diretor = new Diretor(nome);
         catalogo.adicionarDiretorAoCatalogo(diretor);
-        System.out.println("Diretor cadastrado com sucesso!");
+
+        limparConsole(500);
+        System.out.println(VERDE+"Diretor cadastrado com sucesso!"+RESET);
+        System.out.println("\nPress Enter para voltar ao menu inicial...");
+        scanner.nextLine();
+        limparConsole(1000);
     }
 
     /**
@@ -159,8 +204,28 @@ public class Main {
      * @author Afranio C
      */
     private static void associarDiretor() {
-        System.out.print("ID do Filme: ");
+        limparConsole(500);
+        System.out.println("-------------------------");
+        System.out.println("  ASSOCIAR DIRETOR/FILME  ");
+        System.out.println("-------------------------\n");
+
+        List<Filme> filmes = catalogo.getFilmes();
+        System.out.println("FILMES CADASTRADOS");
+        for (Filme f : filmes) {
+            System.out.println(f.getId() + " - " + f.getNome());
+        }
+        System.out.println("-------------------------");
+        System.out.print("\nID do Filme: ");
         int id = Integer.parseInt(scanner.nextLine());
+
+        if (id < 0 || id >= filmes.size()) {
+            limparConsole(500);
+            System.out.println(VERMELHO+"ID inválido."+RESET);
+            System.out.println("\nPress Enter para voltar ao menu inicial...");
+            scanner.nextLine();
+            limparConsole(1000);
+            return;
+        }
 
         List<Diretor> diretores = catalogo.getDiretores();
         if (diretores.isEmpty()) {
@@ -168,49 +233,91 @@ public class Main {
             return;
         }
 
-        System.out.println("Escolha o Diretor:");
         for (int i = 0; i < diretores.size(); i++) {
             System.out.println(i + ". " + diretores.get(i).getNome());
         }
+        System.out.print("\nEscolha o Diretor:");
         int index = Integer.parseInt(scanner.nextLine());
 
         if (index < 0 || index >= diretores.size()) {
-            System.out.println("Índice inválido.");
+            limparConsole(1000);
+            System.out.println(VERMELHO+"Índice inválido."+RESET);
+            System.out.println("\nPress Enter para voltar ao menu inicial...");
+            scanner.nextLine();
+            limparConsole(1000);
             return;
         }
 
         catalogo.associarDiretorFilme(id, diretores.get(index));
-        System.out.println("Diretor associado!");
+        limparConsole(500);
+        System.out.println(VERDE+"Diretor associado!"+RESET);
+        System.out.println("\nPress Enter para voltar ao menu inicial...");
+        scanner.nextLine();
+        limparConsole(1000);
     }
 
     /**
      * Permite associar um ator cadastrado a um filme através do ID do filme.
-     * 
+     *
      * @author Afranio C
      */
     private static void associarAtor() {
-        System.out.print("ID do Filme: ");
+        limparConsole(500);
+        System.out.println("-------------------------");
+        System.out.println("   ASSOCIAR ATOR/FILME   ");
+        System.out.println("-------------------------\n");
+
+        List<Filme> filmes = catalogo.getFilmes();
+        System.out.println("FILMES CADASTRADOS");
+        for (Filme f : filmes) {
+            System.out.println(f.getId() + " - " + f.getNome());
+        }
+        System.out.println("-------------------------");
+
+        System.out.print("\nID do Filme: ");
         int id = Integer.parseInt(scanner.nextLine());
 
-        List<Ator> atores = catalogo.getAtores();
-        if (atores.isEmpty()) {
-            System.out.println("Nenhum ator cadastrado.");
+        if (id < 0 || id >= filmes.size()) {
+            limparConsole(500);
+            System.out.println(VERMELHO+"ID inválido."+RESET);
+            System.out.println("\nPress Enter para voltar ao menu inicial...");
+            scanner.nextLine();
+            limparConsole(1000);
             return;
         }
 
-        System.out.println("Escolha o Ator:");
+        List<Ator> atores = catalogo.getAtores();
+        if (atores.isEmpty()) {
+            limparConsole(1000);
+            System.out.println("Nenhum ator cadastrado.");
+            System.out.println("\nPress Enter para voltar ao menu inicial...");
+            scanner.nextLine();
+            limparConsole(1000);
+            return;
+        }
+
         for (int i = 0; i < atores.size(); i++) {
             System.out.println(i + ". " + atores.get(i).getNome());
         }
+        System.out.print("\nEscolha o Ator: ");
         int index = Integer.parseInt(scanner.nextLine());
 
         if (index < 0 || index >= atores.size()) {
-            System.out.println("Índice inválido.");
+            limparConsole(1000);
+            System.out.println(VERMELHO+"Índice inválido."+RESET);
+            System.out.println("\nPress Enter para voltar ao menu inicial...");
+            scanner.nextLine();
+            limparConsole(1000);
             return;
         }
 
         catalogo.associarAtorFilme(id, atores.get(index));
-        System.out.println("Ator associado!");
+        limparConsole(500);
+        System.out.println(VERDE+"Ator associado!"+RESET);
+        System.out.println("\nPress Enter para voltar ao menu inicial...");
+        scanner.nextLine();
+        limparConsole(1000);
+
     }
 
     /**
@@ -219,16 +326,32 @@ public class Main {
      * @author Afranio C
      */
     private static void pesquisarFilme() {
+        System.out.println("------------------------");
+        System.out.println("   PESQUISA DE FILMES   ");
+        System.out.println("------------------------\n");
+
         System.out.print("Digite o nome do filme: ");
         String nome = scanner.nextLine();
+
+        limparConsole(500);
+        System.out.println("-------------------------");
+        System.out.println("  RESULTADO DA PESQUISA  ");
+        System.out.println("-------------------------\n");
         List<Filme> resultados = catalogo.buscarFilmePorNome(nome);
         if (resultados.isEmpty()) {
             System.out.println("Nenhum filme encontrado.");
+            System.out.println("\nPress Enter para voltar ao menu inicial...");
+            scanner.nextLine();
+            limparConsole(1000);
             return;
         }
         for (Filme filme : resultados) {
             System.out.println(filme);
         }
+
+        System.out.println("\nPress Enter para voltar ao menu inicial...");
+        scanner.nextLine();
+        limparConsole(1000);
     }
 
     /**
@@ -242,20 +365,30 @@ public class Main {
             System.out.println("Nenhum filme cadastrado.");
             return;
         }
-        
+        System.out.println("------------------------");
+        System.out.println("   CATÁLOGO DE FILMES   ");
+        System.out.println("------------------------\n");
         for (Filme f : filmes) {
-            System.out.println("-------------------------");
             System.out.println(f.getId() + " - " + f.getNome());
+            System.out.println("------------------------");
         }
-        
-        System.out.print("Escolha um filme para ver os detalhes: ");
+
+        System.out.print("\nEscolha um filme para ver os detalhes: ");
         int escolhaFilme = Integer.parseInt(scanner.nextLine());
-        
-        if (escolhaFilme < 1 || escolhaFilme > filmes.size()) {
-            System.out.println("ID de filme inválido.");
+
+        if (escolhaFilme < 0 || escolhaFilme >= filmes.size()) {
+            System.out.println(VERMELHO+"\nID de filme inválido."+RESET);
+            System.out.println("\nPress Enter para voltar ao menu inicial...");
+            scanner.nextLine();
+            limparConsole(1000);
             return;
         }
-        
-        System.out.println(filmes.get(escolhaFilme - 1));
+
+        limparConsole(1000);
+        System.out.println(filmes.get(escolhaFilme));
+
+        System.out.println("\nPress Enter para voltar ao menu inicial...");
+        scanner.nextLine();
+        limparConsole(1000);
     }
 }
