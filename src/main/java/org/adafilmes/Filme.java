@@ -3,6 +3,9 @@
 */
 package org.adafilmes;
 
+import org.adafilmes.utils.FormatarData;
+import org.adafilmes.utils.FormatarOrcamento;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +32,7 @@ public class Filme {
     private String dataLancamento;
     
     /** Orçamento destinado à produção do filme */
-    private float orcamento;
+    private String orcamento;
     
     /** Descrição ou sinopse do filme */
     private String descricao;
@@ -45,7 +48,7 @@ public class Filme {
      * 
      * Inicializa um filme com os dados básicos obrigatórios.
      * A lista de elenco é inicializada como vazia e pode ser preenchida
-     * através do método {@link #adicionarAtor(Ator)}.
+     * através do metodo {@link #adicionarAtor(Ator)}.
      * 
      * @param id Identificador único do filme
      * @param nome Nome ou título do filme
@@ -55,11 +58,11 @@ public class Filme {
      * 
      * @throws IllegalArgumentException se o id for menor ou igual a zero
      */
-    public Filme(int id, String nome, String dataLancamento, float orcamento, String descricao) {
+    public Filme(int id, String nome, String dataLancamento, String orcamento, String descricao) {
         this.id = id;
         this.nome = nome;
-        this.dataLancamento = dataLancamento;
-        this.orcamento = orcamento;
+        this.dataLancamento = FormatarData.formatoBR(dataLancamento);
+        this.orcamento = FormatarOrcamento.formatarMoeda(orcamento);
         this.descricao = descricao;
         this.elenco = new ArrayList<>();
     }
@@ -114,7 +117,7 @@ public class Filme {
      * 
      * @return o orçamento do filme em valor float
      */
-    public float getOrcamento() {
+    public String getOrcamento() {
         return orcamento;
     }
 
@@ -123,7 +126,7 @@ public class Filme {
      * 
      * @param orcamento o novo orçamento do filme
      */
-    public void setOrcamento(float orcamento) {
+    public void setOrcamento(String orcamento) {
         this.orcamento = orcamento;
     }
 
